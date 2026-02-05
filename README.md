@@ -88,6 +88,24 @@ http://<EC2-PUBLIC-IP>
 
 ---
 
+## 📸 Screenshots
+
+### Empty Todo Screen
+
+<p align="center">
+  <img src="todo-empty.png" width="650"/>
+</p>
+
+---
+
+### Todo Added
+
+<p align="center">
+  <img src="todo-added.png" width="650"/>
+</p>
+
+---
+
 ## 📁 Project Structure
 
 ```
