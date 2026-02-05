@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo List</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: Arial;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 50px 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 { 
+            color: #667eea; 
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .add-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .add-btn {
+            background: #4CAF50;
+            color: white;
+        }
+        .todo {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 5px solid #667eea;
+        }
+        .todo.done {
+            opacity: 0.6;
+        }
+        .todo.done .todo-text {
+            text-decoration: line-through;
+        }
+        .toggle-btn {
+            background: #2196F3;
+            color: white;
+            padding: 8px 15px;
+            margin-right: 10px;
+        }
+        .delete-btn {
+            background: #f44336;
+            color: white;
+            padding: 8px 15px;
+        }
+        .empty {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 My Todo List</h1>
+        
+        <form method="POST" class="add-form">
+            {% csrf_token %}
+            <input type="text" name="title" placeholder="Enter todo..." required>
+            <button type="submit" name="add" class="add-btn">Add</button>
+        </form>
+
+        {% for todo in todos %}
+        <div class="todo {% if todo.done %}done{% endif %}">
+            <div class="todo-text">{{ todo.title }}</div>
+            <div>
+                <form method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="todo_id" value="{{ todo.id }}">
+                    <button type="submit" name="toggle" class="toggle-btn">Done</button>
+                </form>
+                <form method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="todo_id" value="{{ todo.id }}">
+                    <button type="submit" name="delete" class="delete-btn">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% empty %}
+        <div class="empty">
+            <h2>No todos yet!</h2>
+            <p>Add your first todo above</p>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
